@@ -12,7 +12,10 @@ class Player(pygame.sprite.Sprite):
 		self.player_jump = pygame.image.load('graphics/player/jump.png').convert_alpha()
 
 		self.image = self.player_walk[self.player_index]
-		self.rect = self.image.get_rect(midbottom = (80,300))
+		self.rect = self.image.get_rect(topleft = (80,500)) #80,300
+		self.is_jumping = False
+		
+        
 		self.gravity = 0
 
 		self.jump_sound = pygame.mixer.Sound('audio/jump.mp3')
@@ -20,18 +23,19 @@ class Player(pygame.sprite.Sprite):
 
 	def player_input(self):
 		keys = pygame.key.get_pressed()
-		if keys[pygame.K_SPACE] and self.rect.bottom >= 300:
-			self.gravity = -20
+		if keys[pygame.K_SPACE] and self.rect.bottom >= 500 :
+			self.gravity = -20 #-20
 			self.jump_sound.play()
+			self.is_jumping = True
 
 	def apply_gravity(self):
 		self.gravity += 1
 		self.rect.y += self.gravity
-		if self.rect.bottom >= 300:
-			self.rect.bottom = 300
-
+		if self.rect.bottom >= 500:
+			self.rect.bottom = 500
+			self.is_jumping = False
 	def animation_state(self):
-		if self.rect.bottom < 300: 
+		if self.rect.bottom < 500: 
 			self.image = self.player_jump
 		else:
 			self.player_index += 0.1
@@ -50,19 +54,19 @@ class Obstacle(pygame.sprite.Sprite):
 		if type == 'trash_can':
 			trash_can= pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
 			self.frames = [trash_can]
-			y_pos = 210
+			y_pos = 340
 		elif type == 'trash_paper': 
 			trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
 			self.frames = [trash_paper]
-			y_pos = 210
+			y_pos = 340
 		else:
 			tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
 			self.frames=[tree]
-			y_pos  = 300
+			y_pos  = 415
 
 		self.animation_index = 0
 		self.image = self.frames[self.animation_index]
-		self.rect = self.image.get_rect(midbottom = (randint(900,1100),y_pos))
+		self.rect = self.image.get_rect(topleft = (randint(700,800),y_pos)) #900,1000
 
 	def animation_state(self):
 		self.animation_index += 0.1 
@@ -81,7 +85,7 @@ class Obstacle(pygame.sprite.Sprite):
 def display_score():
 	current_time = int(pygame.time.get_ticks() / 1000) - start_time
 	score_surf = test_font.render(f'Score: {current_time}',False,(64,64,64))
-	score_rect = score_surf.get_rect(center = (400,50))
+	score_rect = score_surf.get_rect(center = (500,50)) #400,50
 	screen.blit(score_surf,score_rect)
 	return current_time
 
@@ -93,7 +97,7 @@ def collision_sprite():
 
 
 pygame.init()
-screen = pygame.display.set_mode((800,400))
+screen = pygame.display.set_mode((1000,700)) #800,400  khos knea 200 , 300 
 pygame.display.set_caption('Runner')
 clock = pygame.time.Clock()
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
@@ -110,19 +114,19 @@ player.add(Player())
 
 obstacle_group = pygame.sprite.Group()
 
-sky_surface = pygame.image.load('graphics/Sky.png').convert()
-ground_surface = pygame.image.load('graphics/ground.png').convert()
+sky_surface = pygame.image.load('graphics/Sky1.png').convert()
+ground_surface = pygame.image.load('graphics/ground1.png').convert() 
 
 # Intro screen
 player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand,0,2)
-player_stand_rect = player_stand.get_rect(center = (400,200))
+player_stand_rect = player_stand.get_rect(center = (500,300)) #400,200
 
-game_name = test_font.render('Pixel Runner',False,(111,196,169))
-game_name_rect = game_name.get_rect(center = (400,80))
+game_name = test_font.render('Alien Runner',False,(111,196,169))
+game_name_rect = game_name.get_rect(center = (500,180)) #400,80
 
-game_message = test_font.render('Press space to run to collect the trash',False,(111,196,169))
-game_message_rect = game_message.get_rect(center = (400,330))
+game_message = test_font.render('Press space to run',False,(111,196,169))
+game_message_rect = game_message.get_rect(center = (500,430)) #400,330
 
 # Timer 
 obstacle_timer = pygame.USEREVENT + 1
@@ -146,7 +150,7 @@ while True:
 
 	if game_active:
 		screen.blit(sky_surface,(0,0))
-		screen.blit(ground_surface,(0,300))
+		screen.blit(ground_surface,(0,500)) #0 ,300 so khos knea 200 
 		score = display_score()
 		
 		player.draw(screen)
@@ -162,7 +166,7 @@ while True:
 		screen.blit(player_stand,player_stand_rect)
 
 		score_message = test_font.render(f'Your score: {score}',False,(111,196,169))
-		score_message_rect = score_message.get_rect(center = (400,330))
+		score_message_rect = score_message.get_rect(center = (500,430)) #400,330 
 		screen.blit(game_name,game_name_rect)
 
 		if score == 0: screen.blit(game_message,game_message_rect)
