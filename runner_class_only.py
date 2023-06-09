@@ -135,7 +135,7 @@ while True:
 
 		if game_active:
 			if event.type == obstacle_timer:
-				obstacle_group.add(Obstacle(choice(['trash_can','tree','trash_paper','tree'])))
+				obstacle_group.add(Obstacle(choice(['tree','trash_can','tree','trash_paper','tree','tree','trash_paper','tree'])))
 		
 		else:
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
