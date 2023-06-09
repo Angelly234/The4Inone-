@@ -78,18 +78,62 @@ class Obstacle(pygame.sprite.Sprite):
 		if self.rect.x <= -100: 
 			self.kill()
 
+class Objtrash(pygame.sprite.Sprite):
+	def __init__(self,type):
+		super().__init__()
+	
+		if type == 'trash_can':
+			trash_can= pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
+			self.frames = [trash_can]
+			y_pos = 210
+		elif type == 'trash_paper': 
+			trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
+			self.frames = [trash_paper]
+			y_pos = 210
+		else:
+			tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
+			self.frames=[tree]
+			y_pos  = 300
+
+		self.animation_index = 0
+		self.image = self.frames[self.animation_index]
+		self.rect = self.image.get_rect(midbottom = (randint(900,1100),y_pos))
+
+	def animation_state(self):
+		self.animation_index += 0.1 
+		if self.animation_index >= len(self.frames): self.animation_index = 0
+		self.image = self.frames[int(self.animation_index)]
+
+	def update(self):
+		self.animation_state()
+		self.rect.x -= 6
+		self.destroy()
+
+	def destroy(self):
+		if self.rect.x <= -100: 
+			self.kill()
+			
 def display_score():
-	current_time = int(pygame.time.get_ticks() / 1000) - start_time
-	score_surf = test_font.render(f'Score: {current_time}',False,(64,64,64))
-	score_rect = score_surf.get_rect(center = (400,50))
-	screen.blit(score_surf,score_rect)
-	return current_time
+	# current_time = int(pygame.time.get_ticks() / 1000) - start_time
+	# score_surf = test_font.render(f'Score: {current_time}',False,(64,64,64))
+	# score_rect = score_surf.get_rect(center = (400,50))
+	# screen.blit(score_surf,score_rect)
+	# return current_time
+	score_text = test_font.render("Score: " + str(score), True, (64,64,64))
+	# score_surf = test_font.render(f'Score: {current_time}',False,(64,64,64))
+	score_rect = score_text.get_rect(center = (400,50))
+	screen.blit(score_text, score_rect)
+	return score
+
 
 def collision_sprite():
 	if pygame.sprite.spritecollide(player.sprite,obstacle_group,False):
 		obstacle_group.empty()
 		return False
 	else: return True
+
+# def hit_trash();
+# 	if pygame.sprite.spritecollide(player.sprite, )
 
 
 pygame.init()
