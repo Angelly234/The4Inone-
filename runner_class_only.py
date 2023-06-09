@@ -100,8 +100,9 @@ test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 game_active = False
 start_time = 0
 score = 0
-bg_music = pygame.mixer.Sound('audio/music.wav')
-bg_music.play(loops = -1)
+# ******Don't remove this 
+# bg_music = pygame.mixer.Sound('audio/music.wav')
+# bg_music.play(loops = -1)
 
 #Groups
 player = pygame.sprite.GroupSingle()
