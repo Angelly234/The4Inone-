@@ -47,18 +47,31 @@ class Obstacle(pygame.sprite.Sprite):
 	def __init__(self,type):
 		super().__init__()
 		
-		if type == 'trash_can':
-			trash_can= pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
-			self.frames = [trash_can]
-			y_pos = 210
-		elif type == 'trash_paper': 
-			trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
-			self.frames = [trash_paper]
-			y_pos = 210
-		else:
-			tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
-			self.frames=[tree]
-			y_pos  = 300
+		# if type == 'trash_can':
+		# 	trash_can= pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
+		# 	self.frames = [trash_can]
+		# 	y_pos = 210
+		# elif type == 'trash_paper': 
+		# 	trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
+		# 	self.frames = [trash_paper]
+		# 	y_pos = 210
+		# else:
+		# 	tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
+		# 	self.frames=[tree]
+		# 	y_pos  = 300
+
+		if type == 'tree':
+			tree= pygame.image.load('graphics/big-tree.png').convert_alpha()
+			self.frames = [tree]
+			y_pos = 300
+		# elif type == 'trash_paper': 
+		# 	trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
+		# 	self.frames = [trash_paper]
+		# 	y_pos = 210
+		# else:
+		# 	tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
+		# 	self.frames=[tree]
+		# 	y_pos  = 300
 
 		self.animation_index = 0
 		self.image = self.frames[self.animation_index]
@@ -78,6 +91,7 @@ class Obstacle(pygame.sprite.Sprite):
 		if self.rect.x <= -100: 
 			self.kill()
 
+#  create new
 class Objtrash(pygame.sprite.Sprite):
 	def __init__(self,type):
 		super().__init__()
@@ -86,14 +100,10 @@ class Objtrash(pygame.sprite.Sprite):
 			trash_can= pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
 			self.frames = [trash_can]
 			y_pos = 210
-		elif type == 'trash_paper': 
+		else: 
 			trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
 			self.frames = [trash_paper]
 			y_pos = 210
-		else:
-			tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
-			self.frames=[tree]
-			y_pos  = 300
 
 		self.animation_index = 0
 		self.image = self.frames[self.animation_index]
@@ -152,6 +162,7 @@ score = 0
 player = pygame.sprite.GroupSingle()
 player.add(Player())
 
+
 obstacle_group = pygame.sprite.Group()
 
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
@@ -181,7 +192,7 @@ while True:
 		if game_active:
 			if event.type == obstacle_timer:
 				obstacle_group.add(Obstacle(choice(['tree','trash_can','tree','trash_paper','tree','tree','trash_paper','tree'])))
-		
+
 		else:
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 				game_active = True
