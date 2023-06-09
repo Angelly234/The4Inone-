@@ -47,16 +47,17 @@ class Obstacle(pygame.sprite.Sprite):
 	def __init__(self,type):
 		super().__init__()
 		
-		if type == 'fly':
-			fly_1 = pygame.image.load('graphics/fly/fly1.png').convert_alpha()
-			fly_2 = pygame.image.load('graphics/fly/fly2.png').convert_alpha()
-			self.frames = [fly_1,fly_2]
+		if type == 'trash_can':
+			trash_can= pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
+			self.frames = [trash_can]
+			y_pos = 210
+		elif type == 'trash_paper': 
+			trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
+			self.frames = [trash_paper]
 			y_pos = 210
 		else:
-			
-			snail_1 = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
-			snail_2 = pygame.image.load('graphics/big-tree.png').convert_alpha()
-			self.frames = [snail_1,snail_2]
+			tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
+			self.frames=[tree]
 			y_pos  = 300
 
 		self.animation_index = 0
@@ -134,7 +135,7 @@ while True:
 
 		if game_active:
 			if event.type == obstacle_timer:
-				obstacle_group.add(Obstacle(choice(['fly','snail','snail','snail'])))
+				obstacle_group.add(Obstacle(choice(['trash_can','tree','trash_paper','tree'])))
 		
 		else:
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -167,4 +168,4 @@ while True:
 		else: screen.blit(score_message,score_message_rect)
 
 	pygame.display.update()
-	clock.tick(60)
+	clock.tick(50)
