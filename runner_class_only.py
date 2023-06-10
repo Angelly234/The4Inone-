@@ -3,8 +3,8 @@ from sys import exit
 from random import randint, choice
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self):
-		super().__init__()
+	def __init__(self): #initialize
+		super().__init__() 
 		player_walk_1 = pygame.image.load('graphics/player/player_walk_1.png').convert_alpha()
 		player_walk_2 = pygame.image.load('graphics/player/player_walk_2.png').convert_alpha()
 		self.player_walk = [player_walk_1,player_walk_2]
@@ -14,8 +14,6 @@ class Player(pygame.sprite.Sprite):
 		self.image = self.player_walk[self.player_index]
 		self.rect = self.image.get_rect(topleft = (80,500)) #80,300
 		self.is_jumping = False
-		
-        
 		self.gravity = 0
 
 		self.jump_sound = pygame.mixer.Sound('audio/jump.mp3')
@@ -53,12 +51,14 @@ class Obstacle(pygame.sprite.Sprite):
 		
 		if type == 'trash_can':
 			trash_can= pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
-			self.frames = [trash_can]
+			self.frames=[trash_can]
 			y_pos = 340
+			
 		elif type == 'trash_paper': 
 			trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
 			self.frames = [trash_paper]
 			y_pos = 340
+		
 		else:
 			tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
 			self.frames=[tree]
@@ -66,7 +66,7 @@ class Obstacle(pygame.sprite.Sprite):
 
 		self.animation_index = 0
 		self.image = self.frames[self.animation_index]
-		self.rect = self.image.get_rect(topleft = (randint(700,800),y_pos)) #900,1000
+		self.rect = self.image.get_rect(topright = (randint(1400,1500),y_pos)) #900,1000
 
 	def animation_state(self):
 		self.animation_index += 0.1 
@@ -122,7 +122,7 @@ player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alp
 player_stand = pygame.transform.rotozoom(player_stand,0,2)
 player_stand_rect = player_stand.get_rect(center = (500,300)) #400,200
 
-game_name = test_font.render('Alien Runner',False,(111,196,169))
+game_name = test_font.render('Pixel Runner',False,(111,196,169))
 game_name_rect = game_name.get_rect(center = (500,180)) #400,80
 
 game_message = test_font.render('Press space to run',False,(111,196,169))
@@ -141,7 +141,6 @@ while True:
 		if game_active:
 			if event.type == obstacle_timer:
 				obstacle_group.add(Obstacle(choice(['tree','trash_can','tree','trash_paper','tree','tree','trash_paper','tree'])))
-		
 		else:
 			if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 				game_active = True
@@ -162,8 +161,7 @@ while True:
 		game_active = collision_sprite()
 		
 	else:
-		screen.fill((45, 177, 186))
-		# screen.fill((94,129,162))
+		screen.fill((94,129,162))
 		screen.blit(player_stand,player_stand_rect)
 
 		score_message = test_font.render(f'Your score: {score}',False,(111,196,169))
@@ -174,4 +172,4 @@ while True:
 		else: screen.blit(score_message,score_message_rect)
 
 	pygame.display.update()
-	clock.tick(50)
+	clock.tick(70)
