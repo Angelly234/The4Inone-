@@ -59,19 +59,28 @@ class Obstacle(pygame.sprite.Sprite):
 		# 	tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
 		# 	self.frames=[tree]
 		# 	y_pos  = 300
+		# 	y_pos = 340
+		# elif type == 'trash_paper': 
+		# 	trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
+		# 	self.frames = [trash_paper]
+		# 	y_pos = 340
+		# else:
+		# 	tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
+		# 	self.frames=[tree]
+		# 	y_pos  = 415
 
 		if type == 'tree':
 			tree= pygame.image.load('graphics/big-tree.png').convert_alpha()
 			self.frames = [tree]
-			y_pos = 300
+			y_pos = 415
 		# elif type == 'trash_paper': 
 		# 	trash_paper = pygame.image.load('graphics/trash/paper-trash.png').convert_alpha()
 		# 	self.frames = [trash_paper]
-		# 	y_pos = 210
+		# 	y_pos = 340
 		# else:
 		# 	tree = pygame.image.load('graphics/big-tree.png').convert_alpha()	 
 		# 	self.frames=[tree]
-		# 	y_pos  = 300
+		# 	y_pos  = 415
 
 		self.animation_index = 0
 		self.image = self.frames[self.animation_index]
@@ -122,7 +131,6 @@ class Objtrash(pygame.sprite.Sprite):
 	def destroy(self):
 		if self.rect.x <= -100: 
 			self.kill()
-			
 def display_score():
 	# current_time = int(pygame.time.get_ticks() / 1000) - start_time
 	# score_surf = test_font.render(f'Score: {current_time}',False,(64,64,64))
@@ -135,7 +143,6 @@ def display_score():
 	screen.blit(score_text, score_rect)
 	return score
 
-
 def collision_sprite():
 	if pygame.sprite.spritecollide(player.sprite,obstacle_group,False):
 		obstacle_group.empty()
@@ -144,7 +151,6 @@ def collision_sprite():
 
 # def hit_trash();
 # 	if pygame.sprite.spritecollide(player.sprite, )
-
 
 pygame.init()
 screen = pygame.display.set_mode((800,400))
