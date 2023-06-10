@@ -7,6 +7,7 @@ from random import randint, choice
 class Player(pygame.sprite.Sprite):
 	def __init__(self): #initialize
 		super().__init__()  
+         # Load player animation frames and jumping image
 		player_walk_1 = pygame.image.load('graphics/player/player_walk_1.png').convert_alpha()
 		player_walk_2 = pygame.image.load('graphics/player/player_walk_2.png').convert_alpha()
 		self.player_walk = [player_walk_1,player_walk_2]
@@ -18,23 +19,27 @@ class Player(pygame.sprite.Sprite):
 		self.is_jumping = False
 		self.gravity = 0
 
+# Load and set volume for the jump sound effect
 		self.jump_sound = pygame.mixer.Sound('audio/jump.mp3')
-		self.jump_sound.set_volume(0.5)
+		self.jump_sound.set_volume(1)
 
+ # Handle player input
 	def player_input(self):
 		keys = pygame.key.get_pressed()
-		if keys[pygame.K_SPACE] and self.rect.bottom >= 500 :
+		if keys[pygame.K_SPACE] and self.rect.bottom >= 300 :
 			self.gravity = -20 #-20
 			self.jump_sound.play()
 			self.is_jumping = True
 
+# Apply gravity to the player character
 	def apply_gravity(self):
-		self.gravity += 1
+		self.gravity += 0.85
 		self.rect.y += self.gravity
 		if self.rect.bottom >= 500:
 			self.rect.bottom = 500
 			self.is_jumping = False
 			
+  # Update the player animation state
 	def animation_state(self):
 		if self.rect.bottom < 500: 
 			self.image = self.player_jump
@@ -43,15 +48,18 @@ class Player(pygame.sprite.Sprite):
 			if self.player_index >= len(self.player_walk):self.player_index = 0
 			self.image = self.player_walk[int(self.player_index)]
 
+ # Update the player
 	def update(self):
 		self.player_input()
 		self.apply_gravity()
 		self.animation_state()
 
+#Define the trash class
 class Trash(pygame.sprite.Sprite):
     def __init__(self, type):
         super().__init__()
 
+    # Load trash image based on the type
         if type == 'trash_can':
             trash_can = pygame.image.load('graphics/trash/can-trash.png').convert_alpha()
             self.image = trash_can
@@ -66,12 +74,15 @@ class Trash(pygame.sprite.Sprite):
         self.animation_index = 0
         self.rect = self.image.get_rect(midbottom=(randint(1400, 1500), self.y_pos))
 
+
+  # Update the trash animation state
     def animation_state(self):
         self.animation_index += 0.1
         if self.animation_index >= len(self.frames):
             self.animation_index = 0
         self.image = self.frames[int(self.animation_index)]
 
+ # Update the trash
     def update(self):
         self.animation_state()
         self.rect.x -= 6
@@ -80,6 +91,7 @@ class Trash(pygame.sprite.Sprite):
     def destroy(self):
         if self.rect.x <= -100:
             self.kill()
+
 
 class Obstacle(pygame.sprite.Sprite):
 	def __init__(self,type):
@@ -158,7 +170,7 @@ player_stand = pygame.transform.rotozoom(player_stand,0,2)
 player_stand_rect = player_stand.get_rect(center = (500,300)) #400,200
 
 # Game name and message
-game_name = test_font.render('Pixel Runner', False, (111, 196, 169))
+game_name = test_font.render('The Alien Runner', False, (111, 196, 169))
 game_name_rect = game_name.get_rect(center=(500, 180))  # 400,80
 game_message = test_font.render('Press space to run', False, (111, 196, 169))
 game_message_rect = game_message.get_rect(center=(500, 430))  # 400,330
